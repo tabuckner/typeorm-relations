@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Photo {
@@ -16,4 +17,7 @@ export class Photo {
 
   @Column()
   isPublished: boolean;
+
+  @ManyToOne(() => User, (user) => user.photos)
+  user: User;
 }
