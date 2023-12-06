@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Tag } from '../../tags/entities/tag.entity';
 
 @Entity()
 export class Photo {
@@ -20,4 +28,8 @@ export class Photo {
 
   @ManyToOne(() => User, (user) => user.photos, { eager: true })
   user: User;
+
+  @ManyToMany(() => Tag, (tag) => tag.photos, { eager: true })
+  @JoinTable()
+  tags: Array<Tag>;
 }

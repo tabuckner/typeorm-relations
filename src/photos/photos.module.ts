@@ -4,9 +4,10 @@ import { PhotosController } from './photos.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Photo } from './entities/photo.entity';
 import { UsersModule } from '../users/users.module';
+import { TagsModule } from '../tags/tags.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Photo]), UsersModule],
+  imports: [TypeOrmModule.forFeature([Photo]), UsersModule, TagsModule],
   controllers: [PhotosController],
   providers: [PhotosService],
 })
