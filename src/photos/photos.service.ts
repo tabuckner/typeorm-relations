@@ -4,18 +4,28 @@ import { CreatePhotoDto } from './dto/create-photo.dto';
 import { UpdatePhotoDto } from './dto/update-photo.dto';
 import { Photo } from './entities/photo.entity';
 import { Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class PhotosService {
   constructor(
     @InjectRepository(Photo)
     private photoRepository: Repository<Photo>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
-  create(createPhotoDto: CreatePhotoDto) {
+  async create(createPhotoDto: CreatePhotoDto) {
     console.warn({ createPhotoDto });
+    const { userID, ...rest } = createPhotoDto;
 
-    return this.photoRepository.save(createPhotoDto);
+    const user = await this.usersRepository.findOneBy({
+      id: parseInt(userID, 10),
+    });
+
+    const newPhoto = this.photoRepository.create({ ...rest, user });
+
+    return this.photoRepository.save(newPhoto);
   }
 
   findAll() {

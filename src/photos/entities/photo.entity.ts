@@ -18,6 +18,6 @@ export class Photo {
   @Column()
   isPublished: boolean;
 
-  @ManyToOne(() => User, (user) => user.photos)
+  @ManyToOne(() => User, (user) => user.photos, { eager: true })
   user: User;
 }
